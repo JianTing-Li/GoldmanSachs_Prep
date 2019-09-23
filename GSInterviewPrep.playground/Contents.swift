@@ -116,6 +116,27 @@ func maxDepth<T>(_ root: BinaryTreeNode<T>?) -> Int {
     return depth
 }
 
+// find the longest path of a binary search tree
+func findAllPaths<T>(node: BinaryTreeNode<T>?,
+                     path: [Int] = [],
+                     allPaths: [[Int]] = []) -> [[Int]] {
+    guard let node = node else { return allPaths }
+    var path = path
+    var allPaths = allPaths
+    // if we are all the end of the node
+    if node.leftChild == nil && node.rightChild == nil {
+        path.append(node.value as! Int)
+        allPaths.append(path)
+    } else {
+        if let leftNode = node.leftChild {
+            allPaths = findAllPaths(node: leftNode, path: path, allPaths: allPaths)
+        }
+        if let rightNode = node.rightChild {
+            allPaths = findAllPaths(node: rightNode, path: path, allPaths: allPaths)
+        }
+    }
+    return allPaths
+}
 
 //General Coding Challenge
 //Given a matrix of integers, task is to find out the number of positional elements. A positional element is one that is either minimum or maximum in a row or in a column.
