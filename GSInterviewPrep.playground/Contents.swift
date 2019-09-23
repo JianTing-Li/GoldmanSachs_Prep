@@ -67,10 +67,54 @@ class BinaryTreeNode<T> {
         self.value = value
     }
     
+    func inOrderTraversal(visit: (BinaryTreeNode) -> Void) {
+        leftChild?.inOrderTraversal(visit: visit)
+        visit(self)
+        rightChild?.inOrderTraversal(visit: visit)
+    }
     
+    func preOrderTraversal(visit: (BinaryTreeNode) -> Void) {
+        visit(self)
+        leftChild?.preOrderTraversal(visit: visit)
+        rightChild?.preOrderTraversal(visit: visit)
+    }
+    
+    func postOrderTraversal(visit: (BinaryTreeNode) -> Void) {
+        leftChild?.postOrderTraversal(visit: visit)
+        rightChild?.postOrderTraversal(visit: visit)
+        visit(self)
+    }
 }
+
+/*
+        10
+       /  \
+      2    5
+     / \  / \
+    4  9  7  11
+   /
+ 12
+ */
 //Find the depth of the binary tree (a level by the level output of a binary tree)?
-//Given a binary tree find the maximum sum from leaf to leaf?
+// keep checking whether there is a next level for the nodes by adding their children to an array. As long as one node has 1 children, the temp array of nodes would not be empty. During each iteration, we go down 1 level.
+func maxDepth<T>(_ root: BinaryTreeNode<T>?) -> Int {
+    guard root != nil else { return 0 }
+    var depth = 0
+    var temp = [BinaryTreeNode<T>]()
+    while !temp.isEmpty {
+        for node in temp {
+            temp.removeFirst()
+            if let leftNode = node.leftChild {
+                temp.append(leftNode)
+            }
+            if let rightNode = node.rightChild {
+                temp.append(rightNode)
+            }
+        }
+        depth += 1
+    }
+    return depth
+}
 
 
 //General Coding Challenge
@@ -104,7 +148,7 @@ func findSecondLargest(nums: [Int]) -> Int? {
 
 // Other Preps
 //What is Object-Oriented Programming?
-    //https://www.raywenderlich.com/599-object-oriented-programming-in-swift#toc-anchor-011
+    // https://www.raywenderlich.com/599-object-oriented-programming-in-swift#toc-anchor-011
     // Encapsulation (reduce complexity + increase reusability)
     // A Software Design that encapsulates related variables and functions that operate on then into a unit (object)
         // eg. Car
@@ -116,12 +160,21 @@ func findSecondLargest(nums: [Int]) -> Int? {
             // reduce the impact of change because those code will be inside the object & not the rest of the application code
     // Inheritance (reduce redundant code)
         // Another benefit is Inheritance which reduce the redundancy of code
-// Polymorphism (many forms; refactor ugly switch statements)
+    // Polymorphism (many forms; refactor ugly switch statements)
         // Objects of different classes can be used interchangeably if they have a common superclass
         // technique that get rid of if and else & switch statements
 
+//What is Protocol Oriented Programming
+    // https://www.raywenderlich.com/1258671-advanced-swift-protocol-oriented-programming
+    // https://www.youtube.com/watch?v=lBr8onqP_fM
+    // new type of programming design that solves the probems in OOP
+        // e.g., (shape in Rectangle & circle, circle don't need size)
+        // inheritance (only 1)
+        // shared value changes (implicit sharing)
+    // add rules to the object
+
 //Mullti-threaded Question
-// Concurrency qne multi-threading
+// Concurrency and multi-threading
 // Graphs
 // Binary Search
 //Sorting Algorithm
