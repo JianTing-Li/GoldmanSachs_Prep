@@ -41,7 +41,34 @@ class TreeNode<T: Equatable>: CustomStringConvertible {
     }
 }
 
+let animalNode = TreeNode(value: "Animal")
+
+let mammalNode = TreeNode(value: "Mammal")
+let fishNode = TreeNode(value: "Fish")
+animalNode.addChild(child: mammalNode)
+animalNode.addChild(child: fishNode)
+
+let catNode = TreeNode(value: "Cat")
+let dogNode = TreeNode(value: "Dog")
+let salmonNode = TreeNode(value: "Salmon")
+mammalNode.addChild(child: catNode)
+mammalNode.addChild(child: dogNode)
+fishNode.addChild(child: salmonNode)
+//print(animalNode) // (Animal){(Mammal){Cat, Dog}, (Fish){Salmon}}
+
+
 //Binary Search Trees
+class BinaryTreeNode<T> {
+    var value: T
+    var leftChild: BinaryTreeNode?
+    var rightChild: BinaryTreeNode?
+    
+    init(value: T) {
+        self.value = value
+    }
+    
+    
+}
 //Find the depth of the binary tree (a level by the level output of a binary tree)?
 //Given a binary tree find the maximum sum from leaf to leaf?
 
@@ -52,9 +79,23 @@ class TreeNode<T: Equatable>: CustomStringConvertible {
 //How would you insert an element in a sorted array?
 
 //Find the second largest number in the array.
-func findSecondLargest(nums: [Int]) -> Int {
-    return 1
+func findSecondLargest(nums: [Int]) -> Int? {
+    guard nums.count > 1 else { return nil }
+    var largest = Int.min
+    var secondLargest = Int.min
+    for currentNum in nums {
+        if currentNum > largest {
+            secondLargest = largest
+            largest = currentNum
+        } else if currentNum > secondLargest {
+            secondLargest = currentNum
+        }
+    }
+    return secondLargest
 }
+//print(findSecondLargest(nums: [3, 5, 1, -1, 10, 100]))    // 10
+//print(findSecondLargest(nums: [1])) // nil
+
 //Given an integer, return all sequences of numbers that sum to it. (Example: 3 -&gt; (1, 2), (2, 1), (1, 1, 1))
 //Write a method to calculate the cubic root of a number to 3 decimal places.
 //Look through the array to find pairs that sum to k (Answer)
