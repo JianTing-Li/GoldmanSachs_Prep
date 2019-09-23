@@ -7,6 +7,54 @@ import UIKit
 //Reverse a linked-list
 //Single, double, circular linked list
 //How to remove a node from a singly-linked list when only given the pointer to the node
+class Node<T> {
+    let value: T
+    var next: Node?
+    
+    init(value: T) {
+        self.value = value
+    }
+}
+extension Node: CustomStringConvertible {
+    var description: String {
+        if let nextNode = next {
+            return "\(value) -> \(nextNode)"
+        } else {
+            return "\(value) -> nil"
+        }
+    }
+}
+
+let node3 = Node(value: 3)
+let node5 = Node(value: 5)
+let node11 = Node(value: 11)
+
+node3.next = node5
+node5.next = node11
+
+print(node3)
+
+func reverseLinkList<T>(node: Node<T>?) -> Node<T>? {
+    guard let node = node else { return nil }
+    var linkListValues = [node.value]
+    var currentNode = node
+    while let nextNode = currentNode.next {
+        linkListValues.append(nextNode.value)
+        currentNode = nextNode
+    }
+    
+    let rootNode = Node(value: linkListValues.popLast()!)
+    var lastNode = rootNode
+    while let value = linkListValues.popLast() {
+        let newNode = Node(value: value)
+        lastNode.next = newNode
+        lastNode = newNode
+    }
+    return rootNode
+}
+
+let reverseNode = reverseLinkList(node: node3)
+print(reverseNode ?? "invalid node")
 
 //Tree
 class TreeNode<T: Equatable>: CustomStringConvertible {
@@ -97,6 +145,7 @@ class BinaryTreeNode<T> {
  */
 //Find the depth of the binary tree (a level by the level output of a binary tree)?
 // keep checking whether there is a next level for the nodes by adding their children to an array. As long as one node has 1 children, the temp array of nodes would not be empty. During each iteration, we go down 1 level.
+// https://windsuzu.github.io/leetcode-104/
 func maxDepth<T>(_ root: BinaryTreeNode<T>?) -> Int {
     guard root != nil else { return 0 }
     var depth = 0
