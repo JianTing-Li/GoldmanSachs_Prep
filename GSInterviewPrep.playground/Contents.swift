@@ -104,8 +104,22 @@ func findSecondLargest(nums: [Int]) -> Int? {
 
 // Other Preps
 //What is Object-Oriented Programming?
-//What is Polymorphism?
-//What happens if we do not have a hashcode method in an object?
+    //https://www.raywenderlich.com/599-object-oriented-programming-in-swift#toc-anchor-011
+    // Encapsulation (reduce complexity + increase reusability)
+    // A Software Design that encapsulates related variables and functions that operate on then into a unit (object)
+        // eg. Car
+            // properties such as make, model, & color
+            // functions such as start(), stop(), honk(), move()
+    // Abstraction (reduce complexity + isolate impact of changes)
+        // hide properties and methods from outside and this give us benefits
+            // make interface of those objects simpler
+            // reduce the impact of change because those code will be inside the object & not the rest of the application code
+    // Inheritance (reduce redundant code)
+        // Another benefit is Inheritance which reduce the redundancy of code
+// Polymorphism (many forms; refactor ugly switch statements)
+        // Objects of different classes can be used interchangeably if they have a common superclass
+        // technique that get rid of if and else & switch statements
+
 //Mullti-threaded Question
 // Concurrency qne multi-threading
 // Graphs
