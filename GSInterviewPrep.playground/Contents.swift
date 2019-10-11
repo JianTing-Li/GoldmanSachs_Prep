@@ -32,7 +32,7 @@ let node11 = Node(value: 11)
 node3.next = node5
 node5.next = node11
 
-print(node3)
+
 
 func reverseLinkList<T>(node: Node<T>?) -> Node<T>? {
     guard let node = node else { return nil }
@@ -52,9 +52,10 @@ func reverseLinkList<T>(node: Node<T>?) -> Node<T>? {
     }
     return rootNode
 }
+//let reverseNode = reverseLinkList(node: node3)
+//print(reverseNode ?? "invalid node")
+//print(node3)
 
-let reverseNode = reverseLinkList(node: node3)
-print(reverseNode ?? "invalid node")
 
 //Tree
 class TreeNode<T: Equatable>: CustomStringConvertible {
@@ -164,6 +165,10 @@ func maxDepth<T>(_ root: BinaryTreeNode<T>?) -> Int {
     }
     return depth
 }
+func getHeight<T>(node: BinaryTreeNode<T>?) -> Int{
+    guard let node = node else {return 0}
+    return 1 + max(getHeight(node: node.leftChild), getHeight(node: node.rightChild))
+}
 
 // find the longest path of a binary search tree
 func findAllPaths<T>(node: BinaryTreeNode<T>?,
@@ -210,8 +215,71 @@ func findSecondLargest(nums: [Int]) -> Int? {
 //print(findSecondLargest(nums: [3, 5, 1, -1, 10, 100]))    // 10
 //print(findSecondLargest(nums: [1])) // nil
 
+// given 2 sorted arrs, return the median
+func medianOf2Arrs(arr1: [Int], arr2: [Int]) -> Double {
+    let mergeArr = combinedTwoSortedArrs(arr1: arr1, arr2: arr2)
+    print(mergeArr)
+    if mergeArr.count.isMultiple(of: 2) {
+        let middleIndex = mergeArr.count / 2
+        return Double(mergeArr[middleIndex] + mergeArr[middleIndex - 1]) / 2
+    } else {
+        return Double(mergeArr[mergeArr.count / 2])
+    }
+}
+
+func combinedTwoSortedArrs(arr1: [Int], arr2: [Int]) -> [Int] {
+    var index1 = 0
+    var index2 = 0
+    var newArr = [Int]()
+    while index1 < arr1.count && index2 < arr2.count {
+        let num1 = arr1[index1]
+        let num2 = arr2[index2]
+        if num1 < num2 {
+            newArr.append(num1)
+            index1 += 1
+        } else if num2 < num1 {
+            newArr.append(num2)
+            index2 += 1
+        } else {
+            newArr.append(contentsOf: [num1, num2])
+            index1 += 1
+            index2 += 1
+        }
+    }
+    if index1 < arr1.count {
+        newArr.append(contentsOf: arr1[index1..<arr1.count])
+    }
+    if index2 < arr2.count {
+        newArr.append(contentsOf: arr2[index2..<arr2.count])
+    }
+    return newArr
+}
+//print(medianOf2Arrs(arr1: [-1, 5], arr2: [0]))
+
+// Longest Word - Given a list of random letters see the longest word you can make from a bank of words
+func getLongestWord(randomLetters: String, wordBank: [String]) -> String? {
+    let sortedWordBank = wordBank.sorted { $0.count > $1.count }
+    let lowercasedRandomLetters = randomLetters.lowercased()
+    for word in sortedWordBank {
+        if lowercasedRandomLetters.contains(word.lowercased()) { return word }
+    }
+    return nil
+}
+print(getLongestWord(randomLetters: "skfjldcatsfjdsl", wordBank: ["cat", "meow"])) // "cat" h
+
+// Snow - Given an array, see the largest amount of snow you can capture between hills
+
 //Given an integer, return all sequences of numbers that sum to it. (Example: 3 -&gt; (1, 2), (2, 1), (1, 1, 1))
-//Write a method to calculate the cubic root of a number to 3 decimal places.
+
+
+
+
+
+
+
+
+
+
 //Look through the array to find pairs that sum to k (Answer)
 //An online retailer allows sellers to post different prices for the same product at different time intervals. Find an algorithm to return a list of sorted intervals with the lowest price.  (Answer)
 //Move all zeroes to the beginning of the given array. This needs to be in linear time.  (Answer)
