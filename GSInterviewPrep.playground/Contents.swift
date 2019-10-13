@@ -193,8 +193,10 @@ func findAllPaths<T>(node: BinaryTreeNode<T>?,
 }
 
 //General Coding Challenge
-//Given a matrix of integers, task is to find out the number of positional elements. A positional element is one that is either minimum or maximum in a row or in a column.
-// Find the minimum sum of integer equal or less to a number?
+/*
+ https://leetcode.com/problems/minimum-size-subarray-sum/
+ Find the minimum sum of integer equal or less to a number?
+ */
 //How would you insert an element in a sorted array?
 
 //Find the second largest number in the array.
@@ -265,15 +267,113 @@ func getLongestWord(randomLetters: String, wordBank: [String]) -> String? {
     }
     return nil
 }
-print(getLongestWord(randomLetters: "skfjldcatsfjdsl", wordBank: ["cat", "meow"])) // "cat" h
+//print(getLongestWord(randomLetters: "skfjldcatsfjdsl", wordBank: ["cat", "meow"])) // "cat" h
 
-// Snow - Given an array, see the largest amount of snow you can capture between hills
+/*
+ https://leetcode.com/problems/circular-array-loop/
+countLengthOfCycle(arr, startIndex)
+* You are given an integer array of size N.
+* Every element of the array is greater than or equal to 0.
+* Starting from arr[startIndex], follow each element to the index it points to.
+* Continue to do this until you find a cycle.
+* Return the length of the cycle. If no cycle is found return -1
+countLengthOfCycle([1, 0, 3], 0) = 2        0, 1,    0, 1
+countLengthOfCycle([1, 2, 0], 0) = 3        0, 1, 2,    0, 1, 2
+countLengthOfCycle([3, 2, 1, 1], 0) = 2
+countLengthOfCycle([3, 2, 4, 1, 0], 0) = 5      0, 3, 1, 2, 4,   0, 3, 1, 2, 4
+*/
+// keep track of the indexes I go into, once I go into an in which I already gone to, that's where the cycle repeats itself
+// keep track of the count of the cycle
+// questions: non-empty array? Out of bound indexes?
+
+func countLengthOfCycle(arr: [Int], startIndex: Int) -> Int {
+    guard arr.indices.contains(startIndex) else { return -1 }
+    var indexTracker = [Int]()
+    var currentIndex = startIndex
+    while !indexTracker.contains(currentIndex) {
+        indexTracker.append(currentIndex)
+        let nextIndex = arr[currentIndex]
+        guard arr.indices.contains(nextIndex) else { return -1 }
+        currentIndex = nextIndex
+    }
+    return indexTracker.count
+}
+//print(countLengthOfCycle(arr: [3,2,4,1,0], startIndex: 0))
+
+
+/*
+Find the longest subString
+and return the starting index of the subString and its length
+input: ''             output: [-1, 0]
+input: '123'          output: [-1, 0]
+input: 'aabbccccc'    output: [4, 5]
+input: 'aaaabccdddd'  output: [-1, 0]
+*/
+
+/*
+ https://leetcode.com/problems/longest-substring-without-repeating-characters/
+ Given a string, find the length of the longest substring without repeating characters.
+
+ Example 1:
+ 
+ Input: "abcabcbb"
+ Output: 3
+ Explanation: The answer is "abc", with the length of 3.
+ */
+
+/*
+https://leetcode.com/problems/trapping-rain-water/  (hard problem)
+Given n non-negative integers representing an elevation map where the width of each bar is 1,
+compute how much water it is able to trap after raining.
+Input: [0,1,0,2,1,0,1,3,2,1,2,1]
+Output: 6
+*/
+
+/*
+https://leetcode.com/problems/string-compression/
+ Given an array of characters, compress it in-place.
+ The length after compression must always be smaller than or equal to the original array.
+ Every element of the array should be a character (not int) of length 1.
+ After you are done modifying the input array in-place, return the new length of the array.
+ Follow up:
+ Could you solve it using only O(1) extra space?
+
+ Example 1:
+
+ Input:
+ ["a","a","b","b","c","c","c"]
+
+ Output:
+ Return 6, and the first 6 characters of the input array should be: ["a","2","b","2","c","3"]
+
+ Explanation:
+ "aa" is replaced by "a2". "bb" is replaced by "b2". "ccc" is replaced by "c3".
+ */
+/*
+[a, a, c, c]
+ [a, c] -> 2
+*/
+
+func lengthOfCompressedArr(_ chars: inout [Character]) -> Int {
+    var dict = [Character : Int]()
+    for char in chars {
+        if let letterCount = dict[char] {
+            dict[char] = letterCount + 1
+        } else {
+            dict[char] = 1
+        }
+    }
+    var count = 0
+    for letterCount in dict.values {
+        if letterCount > 1 { count += letterCount.description.count }
+        count += 1
+    }
+    return count
+}
+//var arrChars: [Character] = ["a","a","b","b","c","c","c"]
+//print(lengthOfCompressedArr(&arrChars)) // 6  because ["a", "2", "b", "2", "c", "3"]
 
 //Given an integer, return all sequences of numbers that sum to it. (Example: 3 -&gt; (1, 2), (2, 1), (1, 1, 1))
-
-
-
-
 
 
 
