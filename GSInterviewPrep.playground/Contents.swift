@@ -192,13 +192,10 @@ func findAllPaths<T>(node: BinaryTreeNode<T>?,
     return allPaths
 }
 
-//General Coding Challenge
-/*
- https://leetcode.com/problems/minimum-size-subarray-sum/
- Find the minimum sum of integer equal or less to a number?
- */
-//How would you insert an element in a sorted array?
 
+
+
+//General Coding Challenge
 //Find the second largest number in the array.
 func findSecondLargest(nums: [Int]) -> Int? {
     guard nums.count > 1 else { return nil }
@@ -267,10 +264,11 @@ func getLongestWord(randomLetters: String, wordBank: [String]) -> String? {
     }
     return nil
 }
-//print(getLongestWord(randomLetters: "skfjldcatsfjdsl", wordBank: ["cat", "meow"])) // "cat" h
+//print(getLongestWord(randomLetters: "skfjldcatsfjdsl", wordBank: ["cat", "meow"])) // "cat"
+
 
 /*
- https://leetcode.com/problems/circular-array-loop/
+ https://leetcode.com/problems/circular-array-loop/ simlar problem
 countLengthOfCycle(arr, startIndex)
 * You are given an integer array of size N.
 * Every element of the array is greater than or equal to 0.
@@ -282,10 +280,9 @@ countLengthOfCycle([1, 2, 0], 0) = 3        0, 1, 2,    0, 1, 2
 countLengthOfCycle([3, 2, 1, 1], 0) = 2
 countLengthOfCycle([3, 2, 4, 1, 0], 0) = 5      0, 3, 1, 2, 4,   0, 3, 1, 2, 4
 */
-// keep track of the indexes I go into, once I go into an in which I already gone to, that's where the cycle repeats itself
-// keep track of the count of the cycle
-// questions: non-empty array? Out of bound indexes?
-
+    // keep track of the indexes I go into, once I go into an in which I already gone to, that's where the cycle repeats itself
+    // keep track of the count of the cycle
+    // questions: non-empty array? Out of bound indexes?
 func countLengthOfCycle(arr: [Int], startIndex: Int) -> Int {
     guard arr.indices.contains(startIndex) else { return -1 }
     var indexTracker = [Int]()
@@ -298,7 +295,7 @@ func countLengthOfCycle(arr: [Int], startIndex: Int) -> Int {
     }
     return indexTracker.count
 }
-//print(countLengthOfCycle(arr: [3,2,4,1,0], startIndex: 0))
+// print(countLengthOfCycle(arr: [3,2,4,1,0], startIndex: 0))
 
 
 /*
@@ -310,16 +307,77 @@ input: 'aabbccccc'    output: [4, 5]
 input: 'aaaabccdddd'  output: [-1, 0]
 */
 
+
+
 /*
  https://leetcode.com/problems/longest-substring-without-repeating-characters/
  Given a string, find the length of the longest substring without repeating characters.
-
- Example 1:
  
  Input: "abcabcbb"
  Output: 3
  Explanation: The answer is "abc", with the length of 3.
+ if`
+ abc bca cab abc bcb
+ // variable to keep track of the non-repeating chars for each substring
+ // placeholder to keep track of the longest subtring
  */
+
+//func lengthOfLongestSubstring(string: String) -> Int {
+//    var longestLength = 0
+//    var subString = string.prefix(0)
+//    // keep track of the indices 1) start indice 2) end indice
+//    // each I move to a new char, check if that charcter already exist in the substring
+//        //if it exist, move to the next starting indice & reset subString w/ the start & end indices of the next letter
+//
+//    return longestLength
+//}
+
+func lengthOfLongestSubstring(string: String) -> Int {
+    var longestLength = 0
+    let arrString = Array(string)
+    var letterTracker = [Character]()
+    
+    for startIndex in 0..<string.count {
+        for endIndex in startIndex..<string.count {
+            let currentLetter = arrString[endIndex]
+            if letterTracker.contains(currentLetter) {
+                break
+            } else {
+                letterTracker.append(currentLetter)
+            }
+        }
+        if letterTracker.count > longestLength {
+            longestLength = letterTracker.count
+        }
+        letterTracker = [Character]()
+    }
+    return longestLength
+}
+//print(lengthOfLongestSubstring(s: " "))
+
+// out of bound
+func lengthOfLongestSubstring2(s: String) -> Int {
+    var longestLength = 0
+    var subString = s.prefix(0)
+    var endIndexOffset = 0
+    for startIndexOffset in 0..<s.count {
+        endIndexOffset = -s.count + startIndexOffset + 2
+        while endIndexOffset < 1 {
+            let end = s.index(s.endIndex, offsetBy: endIndexOffset)
+            guard !subString.contains(s[end])  else { break }
+            let start = s.index(s.startIndex, offsetBy: startIndexOffset)
+            let range = start..<end
+            subString = s[range]
+            endIndexOffset += 1
+        }
+        if subString.count > longestLength {
+            longestLength = subString.count
+        }
+    }
+    return longestLength
+}
+
+
 
 /*
 https://leetcode.com/problems/trapping-rain-water/  (hard problem)
@@ -328,6 +386,8 @@ compute how much water it is able to trap after raining.
 Input: [0,1,0,2,1,0,1,3,2,1,2,1]
 Output: 6
 */
+
+
 
 /*
 https://leetcode.com/problems/string-compression/
@@ -353,7 +413,9 @@ https://leetcode.com/problems/string-compression/
 [a, a, c, c]
  [a, c] -> 2
 */
-
+// 2 pointers
+    // 1) where I am overwriting
+    // 2) where I am at at the orignal array
 func lengthOfCompressedArr(_ chars: inout [Character]) -> Int {
     var dict = [Character : Int]()
     for char in chars {
@@ -372,8 +434,6 @@ func lengthOfCompressedArr(_ chars: inout [Character]) -> Int {
 }
 //var arrChars: [Character] = ["a","a","b","b","c","c","c"]
 //print(lengthOfCompressedArr(&arrChars)) // 6  because ["a", "2", "b", "2", "c", "3"]
-
-//Given an integer, return all sequences of numbers that sum to it. (Example: 3 -&gt; (1, 2), (2, 1), (1, 1, 1))
 
 
 
